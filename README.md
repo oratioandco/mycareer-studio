@@ -159,11 +159,9 @@ mycareer-studio/
 - **Portfolio themes**: Override individual Astro components in `templates/portfolio/custom/`
 - **Quick theme**: Edit `tailwind.config.js` colors in the scaffolded portfolio
 
-## Relationship to my-cv-tailor
+## Origin
 
-Evolved from [my-cv-tailor](https://github.com/oratioandco/my-cv-tailor). Same DNA — the prompts, templates, IMPACT framework, and writing quality rules all come from there. New form factor: a full career agent instead of just a CV tool.
-
-my-cv-tailor remains available as the original project.
+Born from years of career strategy work and AI experimentation. The prompts, templates, IMPACT framework, and writing quality rules were refined through hundreds of real applications.
 
 ## Philosophy
 

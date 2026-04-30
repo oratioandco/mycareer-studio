@@ -1,0 +1,34 @@
+---
+export interface Props {
+  id: string;
+  title: string;
+  subtitle?: string;
+  tags?: string[];
+  company?: string;
+  role?: string;
+  duration?: string;
+}
+
+const { id, title, subtitle, tags = [], company, role, duration } = Astro.props;
+---
+
+<a href={`/work/${id}`} class="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+  <div class="p-6">
+    <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
+      {company && <span>{company}</span>}
+      {duration && <>
+        <span>·</span>
+        <span>{duration}</span>
+      </>}
+    </div>
+    <h3 class="text-lg font-semibold group-hover:text-accent transition-colors mb-1">{title}</h3>
+    {subtitle && <p class="text-sm text-gray-600 mb-3">{subtitle}</p>}
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5">
+        {tags.slice(0, 4).map((tag) => (
+          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+</a>

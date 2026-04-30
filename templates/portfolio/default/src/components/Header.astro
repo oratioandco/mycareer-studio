@@ -1,0 +1,11 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
+  <a href="/" class="text-lg font-bold tracking-tight">Portfolio</a>
+  <div class="flex gap-6 text-sm">
+    <a href="/" class:list={["hover:text-accent transition-colors", currentPath === "/" && "text-accent font-medium"]}>Work</a>
+    <a href="/about" class:list={["hover:text-accent transition-colors", currentPath === "/about" && "text-accent font-medium"]}>About</a>
+  </div>
+</nav>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{name}} - Resume</title>
+    <meta name="description" content="{{name}} - {{summary_short}}">
+    <meta name="keywords" content="{{keywords}}">
+    <style>
+        @font-face {
+            font-family: 'Gambarino-Regular';
+            src: url('../assets/fonts/Gambarino-Regular.woff2') format('woff2'),
+                 url('../assets/fonts/Gambarino-Regular.woff') format('woff'),
+                 url('../assets/fonts/Gambarino-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Switzer';
+            src: url('../assets/fonts/Switzer-Variable.woff2') format('woff2-variations'),
+                 url('../assets/fonts/Switzer-Variable.woff') format('woff-variations'),
+                 url('../assets/fonts/Switzer-Variable.ttf') format('truetype-variations');
+            font-weight: 100 900;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto 20px auto;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            page-break-after: always;
+        }
+        
+        .page:last-child {
+            margin-bottom: 0;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+            
+            .page:last-child {
+                page-break-after: auto;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1 -->
+    <div class="page">
+        <!-- Hidden semantic content for ATS -->
+        <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0;">
+            <h1>{{name}}</h1>
+            <div>
+                <h2>Contact Information</h2>
+                <p>Address: {{address}}</p>
+                <p>Phone: {{phone}}</p>
+                <p>Email: {{email}}</p>
+                <p>Website: {{website}}</p>
+            </div>
+            {{education_ats}}
+            <div>
+                <h2>Profile</h2>
+                <p>{{summary}}</p>
+            </div>
+            <div>
+                <h2>Experience</h2>
+                {{experience_ats}}
+            </div>
+            <!-- Keywords for ATS optimization -->
+            <div>
+                <p style="font-size: 0.1px; color: transparent;">Keywords: {{all_keywords}}</p>
+            </div>
+        </div>
+        <svg width="210mm" height="297mm" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <style>
+                    .gambarino { font-family: 'Gambarino-Regular', Georgia, serif; }
+                    .switzer { font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif; }
+                    .blue { fill: #2f5f7f; }
+                    .dark { fill: #1a1a1a; }
+                    .gray { fill: #666; }
+                    .light-gray { fill: #999; }
+                    .name { font-size: 36px; font-weight: normal; }
+                    .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; }
+                    .contact-label { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+                    .contact-value { font-size: 10px; font-weight: 400; }
+                    .degree { font-size: 10px; font-weight: 400; }
+                    .institution { font-size: 9px; font-weight: 400; font-style: italic; }
+                    .profile-text { font-size: 11px; line-height: 1.6; font-weight: 400; }
+                    .job-title { font-size: 11px; font-weight: 500; }
+                    .job-date { font-size: 9px; font-weight: 400; }
+                    .job-bullet { font-size: 10px; line-height: 1.4; font-weight: 400; }
+                </style>
+            </defs>
+            
+            <!-- Background -->
+            <rect width="794" height="1123" fill="white"/>
+            
+            <!-- LEFT COLUMN (65-280px) -->
+            <!-- Name -->
+            <text x="65" y="150" class="gambarino name blue">{{name}}</text>
+            
+            <!-- Address Section -->
+            <text x="65" y="230" class="gambarino section-title blue">ADDRESS</text>
+            {{contact_svg}}
+            
+            <!-- Education Section -->
+            <text x="65" y="430" class="gambarino section-title blue">EDUCATION</text>
+            {{education_svg}}
+            
+            <!-- RIGHT COLUMN (320-719px) -->
+            <!-- Profile Section -->
+            <text x="320" y="230" class="gambarino section-title blue">PROFILE</text>
+            {{profile_svg}}
+            
+            <!-- Experience Section -->
+            <text x="320" y="415" class="gambarino section-title blue">EXPERIENCE</text>
+            {{experience_page1_svg}}
+        </svg>
+    </div>
+    
+    <!-- Page 2 -->
+    <div class="page">
+        <svg width="210mm" height="297mm" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <style>
+                    .gambarino { font-family: 'Gambarino-Regular', Georgia, serif; }
+                    .switzer { font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif; }
+                    .blue { fill: #2f5f7f; }
+                    .dark { fill: #1a1a1a; }
+                    .gray { fill: #666; }
+                    .light-gray { fill: #999; }
+                    .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; }
+                    .job-title { font-size: 11px; font-weight: 500; }
+                    .job-date { font-size: 9px; font-weight: 400; }
+                    .job-bullet { font-size: 10px; line-height: 1.4; font-weight: 400; }
+                    .skill-category { font-size: 11px; font-weight: 500; }
+                    .skill-text { font-size: 9px; line-height: 1.4; font-weight: 400; }
+                </style>
+            </defs>
+            
+            <!-- Background -->
+            <rect width="794" height="1123" fill="white"/>
+            
+            <!-- Continue Experience from Page 1 -->
+            {{experience_page2_svg}}
+            
+            <!-- Skills Section (if space allows) -->
+            {{skills_svg}}
+        </svg>
+    </div>
+</body>
+</html>

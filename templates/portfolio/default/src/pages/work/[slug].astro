@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
+
+export function getStaticPaths() {
+  return []; // Populated by Astro Content Collections in production
+}
+
+const { id } = Astro.params;
+---
+
+<BaseLayout title="Case Study" description="Design case study">
+  <Header />
+  <main>
+    <!-- Content rendered by Astro Content Collections -->
+    <p class="text-center text-gray-500 py-20">Case study content loads here. Configure Astro Content Collections to render markdown case studies.</p>
+  </main>
+  <Footer />
+</BaseLayout>

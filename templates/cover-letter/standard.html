@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[FULL_NAME] - My CV Tailor Cover Letter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .toolbar button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .toolbar button:hover {
+            background: #2980b9;
+        }
+        
+        .toolbar button.active {
+            background: #e74c3c;
+        }
+        
+        .toolbar button.success {
+            background: #27ae60;
+        }
+        
+        .letter-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 60px auto 20px;
+            background: white;
+            padding: 25mm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        /* Editable elements styling */
+        .editable {
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .editing-enabled .editable:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            outline: 1px dashed #3498db;
+            cursor: text;
+        }
+        
+        .editing-enabled .editable:focus {
+            background-color: rgba(52, 152, 219, 0.15);
+            outline: 2px solid #3498db;
+        }
+        
+        /* Header section */
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .contact-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .date {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .recipient {
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .salutation {
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .body {
+            margin-bottom: 25px;
+        }
+        
+        .body p {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        
+        .closing {
+            margin-top: 25px;
+        }
+        
+        .closing p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .signature {
+            margin-top: 30px;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .toolbar {
+                display: none !important;
+            }
+            
+            .letter-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                padding: 20mm;
+            }
+            
+            .editable:hover {
+                background-color: transparent !important;
+                outline: none !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        
+        /* Style variations */
+        .style-modern {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+        
+        .style-tech {
+            --primary-color: #6b46c1;
+            --secondary-color: #581c87;
+        }
+        
+        .style-corporate {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+        }
+        
+        .name {
+            color: var(--primary-color, #2c3e50);
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="style-modern">
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button id="editBtn" onclick="toggleEditing()">Enable Editing</button>
+            <button onclick="changeStyle('modern')">Modern</button>
+            <button onclick="changeStyle('tech')">Tech</button>
+            <button onclick="changeStyle('corporate')">Corporate</button>
+        </div>
+        <div class="toolbar-group">
+            <span id="editStatus">View Mode</span>
+            <button onclick="saveData()" class="success">Save Changes</button>
+            <button onclick="exportPDF()">Export PDF</button>
+        </div>
+    </div>
+
+    <div class="letter-container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="name editable" contenteditable="false" data-field="name">
+                [FULL_NAME]
+            </div>
+            <div class="contact-info editable" contenteditable="false" data-field="contact">
+                [EMAIL] | [PHONE] | [LOCATION]
+            </div>
+        </div>
+        
+        <!-- Date -->
+        <div class="date editable" contenteditable="false" data-field="date">
+            [DATE]
+        </div>
+        
+        <!-- Recipient -->
+        <div class="recipient editable" contenteditable="false" data-field="recipient">
+            [HIRING_MANAGER]<br>
+            [COMPANY_NAME]<br>
+            [COMPANY_ADDRESS]
+        </div>
+        
+        <!-- Salutation -->
+        <div class="salutation editable" contenteditable="false" data-field="salutation">
+            [SALUTATION]
+        </div>
+        
+        <!-- Body -->
+        <div class="body">
+            <p class="editable" contenteditable="false" data-field="opening">
+                [OPENING_PARAGRAPH]
+            </p>
+            
+            <p class="editable" contenteditable="false" data-field="body1">
+                [BODY_PARAGRAPH_1]
+            </p>
+            
+            <p class="editable" contenteditable="false" data-field="body2">
+                [BODY_PARAGRAPH_2]
+            </p>
+            
+            <p class="editable" contenteditable="false" data-field="body3">
+                [BODY_PARAGRAPH_3]
+            </p>
+        </div>
+        
+        <!-- Closing -->
+        <div class="closing">
+            <p class="editable" contenteditable="false" data-field="closing">
+                [CLOSING_PARAGRAPH]
+            </p>
+            
+            <div class="signature">
+                <p class="editable" contenteditable="false" data-field="signoff">
+                    [SIGN_OFF],<br><br>
+                    [FULL_NAME]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let editingEnabled = false;
+        let originalData = {};
+        
+        function toggleEditing() {
+            editingEnabled = !editingEnabled;
+            const editables = document.querySelectorAll('.editable');
+            const btn = document.getElementById('editBtn');
+            const status = document.getElementById('editStatus');
+            
+            editables.forEach(el => {
+                el.contentEditable = editingEnabled;
+            });
+            
+            if (editingEnabled) {
+                btn.textContent = 'Disable Editing';
+                btn.classList.add('active');
+                status.textContent = 'Edit Mode - Click any text to modify';
+                document.body.classList.add('editing-enabled');
+                saveOriginalData();
+            } else {
+                btn.textContent = 'Enable Editing';
+                btn.classList.remove('active');
+                status.textContent = 'View Mode';
+                document.body.classList.remove('editing-enabled');
+            }
+        }
+        
+        function saveOriginalData() {
+            originalData = {};
+            document.querySelectorAll('.editable[data-field]').forEach(el => {
+                originalData[el.dataset.field] = el.innerHTML.trim();
+            });
+        }
+        
+        function saveData() {
+            const data = {};
+            let changes = [];
+            
+            document.querySelectorAll('.editable[data-field]').forEach(el => {
+                const field = el.dataset.field;
+                const currentValue = el.innerHTML.trim();
+                data[field] = currentValue;
+                
+                if (originalData[field] && originalData[field] !== currentValue) {
+                    changes.push(field);
+                }
+            });
+            
+            localStorage.setItem('coverLetterData_' + window.letterId, JSON.stringify(data));
+            showToast(`Saved! ${changes.length} changes made.`, 'success');
+            originalData = {...data};
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        function loadData() {
+            const savedData = localStorage.getItem('coverLetterData_' + window.letterId);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(field => {
+                    const element = document.querySelector(`[data-field="${field}"]`);
+                    if (element) {
+                        element.innerHTML = data[field];
+                    }
+                });
+            }
+        }
+        
+        function changeStyle(styleName) {
+            document.body.className = `style-${styleName}`;
+            showToast(`Changed to ${styleName} style`);
+        }
+        
+        function exportPDF() {
+            if (editingEnabled) {
+                toggleEditing();
+            }
+            
+            window.print();
+            showToast('Opening print dialog for PDF export');
+        }
+        
+        // Auto-save functionality
+        let saveTimeout;
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('editable')) {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    saveData();
+                }, 2000);
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveData();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                toggleEditing();
+            }
+        });
+        
+        // Initialize letter ID
+        window.letterId = new URLSearchParams(window.location.search).get('id') || 'default';
+        
+        // Load saved data on page load
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

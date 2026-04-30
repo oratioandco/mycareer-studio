@@ -1,0 +1,16 @@
+---
+export interface Props {
+  currentFilter?: string;
+}
+
+const { currentFilter } = Astro.props;
+---
+
+{currentFilter && (
+  <div class="max-w-6xl mx-auto px-6 mb-6">
+    <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 text-sm text-blue-800">
+      Showing curated work for: <strong>{currentFilter}</strong>
+      <a href="/work" class="ml-2 underline hover:no-underline">Show all</a>
+    </div>
+  </div>
+)}

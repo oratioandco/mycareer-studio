@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+
+// Case studies are loaded from src/content/case-studies/
+// In production, use Astro Content Collections
+const caseStudies = await Astro.glob('../content/case-studies/*.md');
+---
+
+<BaseLayout title="Work — Portfolio" description="Selected design work and case studies">
+  <Header />
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">Selected Work</h1>
+    <p class="text-gray-600 mb-8">Design case studies spanning enterprise, B2B SaaS, and design leadership.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {caseStudies.map((study) => (
+        <CaseStudyCard
+          id={study.frontmatter.id || study.file.split('/').pop().replace('.md', '')}
+          title={study.frontmatter.title || 'Untitled'}
+          subtitle={study.frontmatter.subtitle}
+          tags={study.frontmatter.tags || []}
+          company={study.frontmatter.company}
+          role={study.frontmatter.role}
+          duration={study.frontmatter.duration}
+        />
+      ))}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

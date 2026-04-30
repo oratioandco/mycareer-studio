@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{name}} - My CV Tailor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .toolbar button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .toolbar button:hover {
+            background: #2980b9;
+        }
+        
+        .toolbar button.active {
+            background: #e74c3c;
+        }
+        
+        .toolbar button.success {
+            background: #27ae60;
+        }
+        
+        .cv-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 60px auto 20px;
+            background: white;
+            padding: 20mm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        /* Editable elements styling */
+        .editable {
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .editing-enabled .editable:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            outline: 1px dashed #3498db;
+            cursor: text;
+        }
+        
+        .editing-enabled .editable:focus {
+            background-color: rgba(52, 152, 219, 0.15);
+            outline: 2px solid #3498db;
+        }
+        
+        /* Header section */
+        .header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .title {
+            font-size: 18px;
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .contact-info > div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Section styling */
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Experience entries */
+        .experience-entry {
+            margin-bottom: 20px;
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        
+        .job-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .company {
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .date-range {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .job-description {
+            margin-top: 8px;
+        }
+        
+        .job-description ul {
+            margin-left: 20px;
+        }
+        
+        .job-description li {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .skill-category {
+            margin-bottom: 10px;
+        }
+        
+        .skill-category h4 {
+            font-size: 13px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .skill-list {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .toolbar {
+                display: none !important;
+            }
+            
+            .cv-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                padding: 15mm;
+            }
+            
+            .editable:hover {
+                background-color: transparent !important;
+                outline: none !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            /* Ensure proper font sizes for print */
+            .name { font-size: 28px; }
+            .title { font-size: 16px; }
+            .section-title { font-size: 14px; }
+            .job-title { font-size: 13px; }
+            .job-description li { font-size: 11px; }
+        }
+        
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        
+        /* Style variations */
+        .style-modern {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        .style-tech {
+            --primary-color: #6b46c1;
+            --secondary-color: #581c87;
+            --accent-color: #ec4899;
+        }
+        
+        .style-corporate {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #10b981;
+        }
+        
+        /* Apply CSS variables */
+        .name, .section-title, .job-title {
+            color: var(--primary-color, #2c3e50);
+        }
+        
+        .title, .company {
+            color: var(--secondary-color, #3498db);
+        }
+        
+        .header {
+            border-bottom-color: var(--primary-color, #2c3e50);
+        }
+        
+        .section-title {
+            border-bottom-color: var(--secondary-color, #3498db);
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="style-modern">
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button id="editBtn" onclick="toggleEditing()">Enable Editing</button>
+            <button onclick="changeStyle('modern')">Modern</button>
+            <button onclick="changeStyle('tech')">Tech</button>
+            <button onclick="changeStyle('corporate')">Corporate</button>
+        </div>
+        <div class="toolbar-group">
+            <span id="editStatus">View Mode</span>
+            <button onclick="saveData()" class="success">Save Changes</button>
+            <button onclick="exportPDF()">Export PDF</button>
+            <button onclick="exportDOCX()">Export DOCX</button>
+        </div>
+    </div>
+
+    <div class="cv-container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="name editable" contenteditable="false" data-field="name">
+                [FULL_NAME]
+            </div>
+            <div class="title editable" contenteditable="false" data-field="title">
+                [PROFESSIONAL_TITLE]
+            </div>
+            <div class="contact-info">
+                <div class="editable" contenteditable="false" data-field="email">
+                    <span>📧</span> [EMAIL]
+                </div>
+                <div class="editable" contenteditable="false" data-field="phone">
+                    <span>📱</span> [PHONE]
+                </div>
+                <div class="editable" contenteditable="false" data-field="location">
+                    <span>📍</span> [LOCATION]
+                </div>
+                [LINKEDIN_SECTION]
+                [PORTFOLIO_SECTION]
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="section">
+            <div class="section-title">Professional Summary</div>
+            <div class="editable" contenteditable="false" data-field="summary">
+                [PROFESSIONAL_SUMMARY]
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="section">
+            <div class="section-title">Professional Experience</div>
+            [EXPERIENCE_ENTRIES]
+        </div>
+
+        <!-- Skills Section -->
+        <div class="section">
+            <div class="section-title">Skills & Expertise</div>
+            <div class="skills-grid">
+                [SKILLS_CATEGORIES]
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+            <div class="section-title">Education</div>
+            [EDUCATION_ENTRIES]
+        </div>
+
+        <!-- Additional Sections -->
+        [AWARDS_SECTION]
+        [PROJECTS_SECTION]
+        [CERTIFICATIONS_SECTION]
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let editingEnabled = false;
+        let originalData = {};
+        
+        function toggleEditing() {
+            editingEnabled = !editingEnabled;
+            const editables = document.querySelectorAll('.editable');
+            const btn = document.getElementById('editBtn');
+            const status = document.getElementById('editStatus');
+            const container = document.querySelector('.cv-container');
+            
+            editables.forEach(el => {
+                el.contentEditable = editingEnabled;
+            });
+            
+            if (editingEnabled) {
+                btn.textContent = 'Disable Editing';
+                btn.classList.add('active');
+                status.textContent = 'Edit Mode - Click any text to modify';
+                document.body.classList.add('editing-enabled');
+                // Store original data for comparison
+                saveOriginalData();
+            } else {
+                btn.textContent = 'Enable Editing';
+                btn.classList.remove('active');
+                status.textContent = 'View Mode';
+                document.body.classList.remove('editing-enabled');
+            }
+        }
+        
+        function saveOriginalData() {
+            originalData = {};
+            document.querySelectorAll('.editable[data-field]').forEach(el => {
+                originalData[el.dataset.field] = el.innerHTML.trim();
+            });
+        }
+        
+        function saveData() {
+            const data = {};
+            let changes = [];
+            
+            document.querySelectorAll('.editable[data-field]').forEach(el => {
+                const field = el.dataset.field;
+                const currentValue = el.innerHTML.trim();
+                data[field] = currentValue;
+                
+                if (originalData[field] && originalData[field] !== currentValue) {
+                    changes.push(field);
+                }
+            });
+            
+            // Save to localStorage (in production, this would save to file system)
+            localStorage.setItem('cvData_' + window.cvId, JSON.stringify(data));
+            
+            // Show notification
+            showToast(`Saved! ${changes.length} changes made.`, 'success');
+            
+            // Update original data
+            originalData = {...data};
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        function loadData() {
+            const savedData = localStorage.getItem('cvData_' + window.cvId);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(field => {
+                    const element = document.querySelector(`[data-field="${field}"]`);
+                    if (element) {
+                        element.innerHTML = data[field];
+                    }
+                });
+            }
+        }
+        
+        function changeStyle(styleName) {
+            document.body.className = `style-${styleName}`;
+            showToast(`Changed to ${styleName} style`);
+        }
+        
+        function exportPDF() {
+            // Disable editing mode for clean PDF
+            if (editingEnabled) {
+                toggleEditing();
+            }
+            
+            // Trigger print dialog (or use Puppeteer in backend)
+            window.print();
+            showToast('Opening print dialog for PDF export');
+        }
+        
+        function exportDOCX() {
+            // In production, this would send data to backend for DOCX generation
+            showToast('DOCX export requires backend integration');
+        }
+        
+        // Auto-save functionality
+        let saveTimeout;
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('editable')) {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    saveData();
+                }, 2000);
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveData();
+            }
+            // Ctrl/Cmd + E to toggle editing
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                toggleEditing();
+            }
+        });
+        
+        // Initialize CV ID from URL or generate new
+        window.cvId = new URLSearchParams(window.location.search).get('id') || 'default';
+        
+        // Load saved data on page load
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

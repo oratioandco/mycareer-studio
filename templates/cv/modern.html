@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{name}} - {{target_role}}</title>
+    <meta name="description" content="{{name}} - {{profile_summary}}">
+    <meta name="keywords" content="{{primary_keywords}}">
+    <style>
+        @font-face {
+            font-family: 'Gambarino-Regular';
+            src: url('../assets/fonts/Gambarino-Regular.woff2') format('woff2'),
+                 url('../assets/fonts/Gambarino-Regular.woff') format('woff'),
+                 url('../assets/fonts/Gambarino-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Switzer';
+            src: url('../assets/fonts/Switzer-Variable.woff2') format('woff2-variations'),
+                 url('../assets/fonts/Switzer-Variable.woff') format('woff-variations'),
+                 url('../assets/fonts/Switzer-Variable.ttf') format('truetype-variations');
+            font-weight: 100 900;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.4;
+            font-size: 10px;
+        }
+        
+        /* Typography Scale */
+        .name { 
+            font-family: 'Gambarino-Regular', Georgia, serif; 
+            font-size: 36px; 
+            font-weight: normal; 
+            color: #2f5f7f;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+        
+        .section-title { 
+            font-family: 'Gambarino-Regular', Georgia, serif;
+            font-size: 11px; 
+            font-weight: 500; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #2f5f7f;
+            margin-top: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        /* Ensure consistent spacing for all first items after section titles */
+        .section-title + .contact-label,
+        .section-title + .profile-text,
+        .section-title + .job-header,
+        .section-title + .degree,
+        .section-title + .skill-category {
+            margin-top: 0 !important;
+        }
+        
+        /* Additional consistency for page 2 section titles */
+        .page-content .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .contact-label { 
+            font-size: 9px; 
+            font-weight: 500; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: #999;
+            margin-top: 12px;
+            margin-bottom: 2px;
+        }
+        
+        .contact-value { 
+            font-size: 10px; 
+            font-weight: 400; 
+            color: #1a1a1a;
+            margin-bottom: 0;
+        }
+        
+        .profile-text { 
+            font-size: 11px; 
+            line-height: 1.6; 
+            font-weight: 400; 
+            color: #1a1a1a;
+            margin-bottom: 0;
+        }
+        
+        .job-header {
+            margin-top: 18px;
+            margin-bottom: 6px;
+        }
+        
+        .job-title-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        
+        .job-title { 
+            font-size: 11px; 
+            font-weight: 500; 
+            color: #1a1a1a;
+        }
+        
+        .job-date { 
+            font-size: 9px; 
+            font-weight: 400; 
+            color: #999;
+        }
+        
+        .company { 
+            font-size: 9px; 
+            font-weight: 400; 
+            font-style: italic; 
+            color: #2f5f7f;
+            margin-top: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .location {
+            font-size: 9px;
+            font-weight: 400;
+            color: #999;
+            margin-left: 8px;
+        }
+        
+        .job-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .job-bullet {
+            font-size: 9px;
+            line-height: 1.4;
+            color: #333;
+            margin-bottom: 4px;
+            padding-left: 8px;
+            position: relative;
+        }
+        
+        .job-bullet:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2f5f7f;
+            font-weight: bold;
+        }
+        
+        .job-bullet:last-child {
+            margin-bottom: 0;
+        }
+        
+        .degree { 
+            font-size: 10px; 
+            font-weight: 500; 
+            color: #1a1a1a;
+            margin-top: 12px;
+            margin-bottom: 1px;
+        }
+        
+        .degree:first-child {
+            margin-top: 0;
+        }
+        
+        .institution { 
+            font-size: 9px; 
+            font-weight: 400; 
+            color: #666;
+            margin-bottom: 1px;
+        }
+        
+        .edu-date { 
+            font-size: 8px; 
+            font-weight: 400; 
+            color: #999;
+            margin-bottom: 0;
+        }
+        
+        .skill-category { 
+            font-size: 11px; 
+            font-weight: 500; 
+            color: #1a1a1a;
+            margin-top: 12px;
+            margin-bottom: 3px;
+        }
+        
+        .skill-category:first-child {
+            margin-top: 0;
+        }
+        
+        .skill-text { 
+            font-size: 9px; 
+            line-height: 1.4; 
+            font-weight: 400; 
+            color: #666;
+            margin-bottom: 2px;
+        }
+        
+        .skill-text:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Page Layout - DEFAULT STRUCTURE */
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto 20px auto;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            page-break-after: always;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page:last-child {
+            margin-bottom: 0;
+        }
+        
+        .page-header {
+            width: 100%;
+            margin-bottom: 32px;
+        }
+        
+        /* DEFAULT: Two-column layout for page 1 */
+        .page-1-content {
+            display: flex;
+            flex: 1;
+            gap: 40px;
+        }
+        
+        /* DEFAULT: Left sidebar 160px wide */
+        .left-column {
+            width: 160px;
+            flex-shrink: 0;
+        }
+        
+        /* DEFAULT: Right column calculated width */
+        .right-column {
+            width: calc(100% - 160px - 40px); /* Total width minus left column minus gap */
+            flex-shrink: 0;
+        }
+        
+        /* DEFAULT: Page 2 matches right column width exactly */
+        .page-content {
+            flex: 1;
+            width: calc(100% - 160px - 40px); /* Exactly match right column width */
+        }
+        
+        /* Hidden content for ATS */
+        .ats-hidden {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+            }
+            
+            .page:last-child {
+                page-break-after: auto;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hidden semantic content for ATS -->
+    <div class="ats-hidden">
+        <h1>{{name}}</h1>
+        <div>
+            <h2>Contact Information</h2>
+            {{contact_info_ats}}
+        </div>
+        <div>
+            <h2>Education</h2>
+            {{education_ats}}
+        </div>
+        <div>
+            <h2>Profile</h2>
+            <p>{{profile_summary}}</p>
+        </div>
+        <div>
+            <h2>Experience</h2>
+            {{experience_ats}}
+        </div>
+        <!-- Keywords for ATS optimization -->
+        <div>
+            <p style="font-size: 0.1px; color: transparent;">Keywords: {{ats_keywords}}</p>
+        </div>
+    </div>
+
+    <!-- Page 1: DEFAULT STRUCTURE -->
+    <div class="page">
+        <div class="page-header">
+            <div class="name">{{name}}</div>
+        </div>
+        <div class="page-1-content">
+            <!-- Left Column: Contact + Education + Skills -->
+            <div class="left-column">
+                <div class="section-title">ADDRESS</div>
+                {{contact_info}}
+                
+                <div class="section-title">EDUCATION</div>
+                {{education}}
+                
+                <div class="section-title">SKILLS</div>
+                {{skills}}
+            </div>
+            
+            <!-- Right Column: Profile + Ongoing + Recent Experience -->
+            <div class="right-column">
+                <div class="section-title">PROFILE</div>
+                <div class="profile-text">{{profile_summary}}</div>
+                
+                {{#if ongoing_work}}
+                <div class="section-title">ONGOING</div>
+                {{ongoing_work}}
+                {{/if}}
+                
+                <div class="section-title">EXPERIENCE</div>
+                {{page_1_experience}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Continued Experience -->
+    <div class="page">
+        <div class="page-content">
+            <div class="section-title">EXPERIENCE (CONTINUED)</div>
+            {{page_2_experience}}
+            
+            {{#if additional_experience}}
+            <div class="section-title">ADDITIONAL EXPERIENCE</div>
+            {{additional_experience}}
+            {{/if}}
+        </div>
+    </div>
+</body>
+</html>

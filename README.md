@@ -32,7 +32,7 @@ flowchart TD
     subgraph Output["📄 Output"]
         CV_OUT["Tailored CV\nHTML → PDF"]
         CL_OUT["Cover Letter\nHTML → PDF"]
-        PORT_OUT["Custom Portfolio URL\n?filter=company-x"]
+        PORT_OUT["Custom Portfolio URL\n/for/company-x"]
         INTERVIEW["Interview Prep\nQuestions + Mock Session"]
     end
 

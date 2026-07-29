@@ -2,14 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Portfolio Filter Configuration",
   "description": "Maps application/company slugs to curated case study selections with visibility control.",
-  
   "type": "object",
-  "required": ["slug", "case_studies"],
-  
+  "required": [
+    "slug",
+    "case_studies"
+  ],
   "properties": {
     "slug": {
       "type": "string",
-      "description": "URL parameter value. e.g. 'liveeo' → treppmann.design/work?liveeo",
+      "description": "URL parameter value. e.g. 'liveeo' \u2192 treppmann.design/work?liveeo",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
     "title": {
@@ -29,7 +30,10 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "visibility"],
+        "required": [
+          "id",
+          "visibility"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -37,7 +41,11 @@
           },
           "visibility": {
             "type": "string",
-            "enum": ["featured", "browseable", "hidden"],
+            "enum": [
+              "featured",
+              "browseable",
+              "hidden"
+            ],
             "description": "featured = shown immediately. browseable = behind 'show more'. hidden = only with ?all parameter."
           },
           "order": {
@@ -46,7 +54,13 @@
           },
           "format_override": {
             "type": "string",
-            "enum": ["in-depth", "executive", "blog", "process", "narrative"],
+            "enum": [
+              "in-depth",
+              "executive",
+              "blog",
+              "process",
+              "narrative"
+            ],
             "description": "Force a specific format for this case study in this view."
           }
         }
@@ -56,6 +70,59 @@
       "type": "string",
       "default": "Show more work",
       "description": "Label for the toggle that reveals browseable case studies."
+    },
+    "cv": {
+      "type": "object",
+      "description": "Tailored CV for this application, linked from the portfolio view. Must be the public variant.",
+      "required": [
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "type": "string",
+          "description": "Path to the public CV PDF, e.g. /documents/cv-acme.pdf"
+        },
+        "label": {
+          "type": "string",
+          "description": "Link text. Defaults to 'Download CV (PDF)'."
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional line under the link, e.g. 'Tailored for the X role'."
+        }
+      }
+    },
+    "bio": {
+      "type": "object",
+      "description": "Bio written for this application. Overrides the generic bio on the portfolio view.",
+      "properties": {
+        "short": {
+          "type": "string",
+          "description": "2-4 sentences."
+        },
+        "long": {
+          "type": "string",
+          "description": "3 paragraphs."
+        },
+        "context": {
+          "type": "object",
+          "description": "Sent to the bio API so AI regeneration stays on-message for this application.",
+          "properties": {
+            "company": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "emphasis": {
+              "type": "string"
+            },
+            "avoid": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   }
 }

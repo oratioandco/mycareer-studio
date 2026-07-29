@@ -283,6 +283,32 @@ After: "Built and led 5-person design team as Senior Leadership Team member, est
 - Stakeholder impact: "simplifying [workflow]," "reducing [friction]"
 - Business enablement: "supporting [growth metric]," "scaling [capability]"
 
+
+#### MANDATORY: Generate TWO variants
+
+Every CV generation produces **two** files, not one. They differ only in contact details.
+
+| Variant | Suffix | Contact block | Goes to |
+|---|---|---|---|
+| **Application** | `[company]-[role]-[date]` | Full: city, email, phone, LinkedIn, portfolio | The employer, via the application form or email |
+| **Public** | `[company]-[role]-[date]-public` | Reduced: city, email, LinkedIn, portfolio. **No phone number. No street address.** | Anywhere publicly reachable — a portfolio view, a shared link, a PDF on a website |
+
+**Why:** the public variant sits on a URL anyone can reach. A phone number on a
+public page attracts scrapers and spam; the employer already gets the full details
+through the application itself. Both variants are otherwise identical — same
+content, same layout, same claims.
+
+**Rules:**
+- Never link the application variant from a public page.
+- Strip the phone number from BOTH the visible contact block and the hidden ATS layer.
+- Reduce any street address to city + country in the public variant.
+- A portfolio view's `cv.href` MUST point at the **public** variant.
+
+**Verify before finishing:**
+```bash
+pdftotext outputs/cv/[company]-[role]-[date]-public.pdf - | grep -c "<phone digits>"   # must be 0
+```
+
 ### Step 6: Advanced ATS Optimization
 
 #### Multi-Layer ATS Strategy

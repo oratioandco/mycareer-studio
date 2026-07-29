@@ -87,11 +87,58 @@ Create `data/case-studies/filters/{company-slug}.json`:
 - Apply format overrides per case study (in-depth for anchor stories, executive for supporting)
 - Validate against `filter-schema.json`
 
+### Step 6b: Link the CV and write a per-view bio
+
+The filter config carries two fields beyond the case study selection. Both are
+easy to skip because the page renders fine without them — and both are what make
+an application-specific view feel written for the reader.
+
+**1. The CV link.** Point at the **public** CV variant from `generate-cv.md` — the
+one without a phone number or street address. Never the application variant: this
+page sits on a URL anyone can reach.
+
+```json
+"cv": {
+  "href": "/documents/cv-{company-slug}.pdf",
+  "label": "Download CV (PDF)",
+  "note": "Tailored for the {role} role"
+}
+```
+
+Copy that PDF into the portfolio site's `public/documents/`.
+
+**2. The bio.** Without one, the page falls back to a generic bio. On an
+application-specific view that is the first thing a hiring manager reads, so the
+generic version is usually the wrong framing.
+
+```json
+"bio": {
+  "short": "2–4 sentences. Lead with the throughline that matches this posting.",
+  "long": "3 paragraphs. Concrete projects, named. Same voice as the cover letter.",
+  "context": {
+    "company": "Who they are, in one line.",
+    "role": "The role as posted — including whether it is IC or leadership.",
+    "emphasis": "What to foreground. Concrete capabilities, not adjectives.",
+    "avoid": "Framings that work against this application. Be explicit."
+  }
+}
+```
+
+`context` is what keeps an AI-regenerated bio on message. If the portfolio offers
+live regeneration, it is sent with the request, so the rewritten bio is still
+written for this reader rather than drifting back to the generic framing.
+
+Constraints: `rules/writing-quality-gate.md` applies. Every claim must trace to a
+verified data file, same standard as the CV.
+
 ### Step 7: Output Portfolio URL
 Provide the portfolio URL for inclusion in the CV and cover letter:
 ```
-treppmann.design/work?{company-slug}
+{your-portfolio-domain}/for/{company-slug}
 ```
+
+The per-application view lives on its own route (`/for/{slug}`), not a query
+parameter on the main work page.
 
 ### Step 8: Update Knowledge Base
 Document the portfolio preparation in the verification log:
@@ -99,6 +146,15 @@ Document the portfolio preparation in the verification log:
 - Any new case studies created
 - Any existing case studies updated
 - Filter configuration details
+
+## Pre-Publish Checklist
+
+- [ ] Every image path in every case study in this view resolves to a real file
+- [ ] `cv.href` points at the **public** CV variant and that file exists
+- [ ] The public CV contains no phone number and no street address
+- [ ] `bio.short` and `bio.long` are written for this role, not the generic fallback
+- [ ] `bio.context` is filled in — `company`, `role`, `emphasis`, `avoid`
+- [ ] The portfolio site is rebuilt/deployed, and the URL loads
 
 ## Case Study Quality Checklist
 Before marking any case study as `review` or `published`:
